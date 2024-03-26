@@ -67,7 +67,7 @@ make ingest_data
 ### List bucket objects
 ```bash
 # Connect to aws environment CLI container
-docker compose run -v $(pwd):/project/ cli-localstack
+docker compose run cli-localstack
 
 # List buckets content
 aws s3 ls landing

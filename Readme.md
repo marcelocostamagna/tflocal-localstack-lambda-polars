@@ -34,7 +34,7 @@ make up
 make down
 ```
 
-### Generate zip files with required packages fro Lambda functions
+### Generate zip files with required packages by Lambda functions
 ```bash
 make lambda_pkgs
 ```

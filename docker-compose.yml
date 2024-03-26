@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+    localstack:
+      image: localstack/localstack
+      ports:
+        - "127.0.0.1:4566:4566"            # LocalStack Gateway
+        - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+      environment:
+        - DOCKER_HOST=unix:///var/run/docker.sock
+      volumes:
+        - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+        - "/var/run/docker.sock:/var/run/docker.sock"
+        - ./localstack:/etc/localstack/init/ready.d
+      networks:
+        - localstack_network
+
+    cli-localstack:
+      build:
+        context: .
+        dockerfile: dockerfiles/Dockerfile_cli_localstack
+      image: cli_localstack
+      networks:
+        - localstack_network
+
+    flights_generator:
+      build:
+        context: .
+        dockerfile: dockerfiles/Dockerfile_flights_generator
+      image: flights-data-generator
+      networks:
+        - localstack_network
+
+networks:
+        localstack_network:
+          driver: bridge
+          name: localstack_network

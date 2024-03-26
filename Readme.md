@@ -10,11 +10,12 @@ This demo project demonstrates how we can make use of buckets events to copy obj
 4. Another bucket event triggers a lambda function to convert this file to parquet and save it to another bucket
 
 Buckets 
-- [landing] Where source CSV files are ingested
-- [bronze] Where files are replicated
-- [silver] Where files are finally converted to parquet format
-- [lambdas] Where zipped source packages required by lambda fucntions are stored
+- `[landing]` Where source CSV files are ingested
+- `[bronze]` Where files are replicated
+- `[silver]` Where files are finally converted to parquet format
+- `[lambdas]` Where zipped source packages required by lambda functions are stored
 
+![](./imgs/localstack_arch.jpeg)
 ## Initial Setup
 ### Installing local required packages
 ```bash
@@ -82,9 +83,9 @@ aws lambda create-function --function-name localstack-lambda-url-example  --runt
 
 # Manually invoke lambda function for converting to parquet
 # Replace "function-name" and "key" with the right object name
-aws lambda invoke --function-name lambda-cp-landing-bronze     --cli-binary-format raw-in-base64-out     --payload '{ "Records": [ { "s3": { "bucket": { "name": "landing" }, "object": { "key": "flights_9698.csv" } } } ] }' response.json
+aws lambda invoke --function-name lambda-cp-landing-bronze --cli-binary-format raw-in-base64-out --payload '{ "Records": [ { "s3": { "bucket": { "name": "landing" }, "object": { "key": "flights_9698.csv" } } } ] }' response.json
 
-aws lambda invoke --function-name lambda-convert-parquet     --cli-binary-format raw-in-base64-out     --payload '{ "Records": [ { "s3": { "bucket": { "name": "bronze" }, "object": { "key": "flights_4131.csv" } } } ] }' response.json
+aws lambda invoke --function-name lambda-convert-parquet --cli-binary-format raw-in-base64-out --payload '{ "Records": [ { "s3": { "bucket": { "name": "bronze" }, "object": { "key": "flights_4131.csv" } } } ] }' response.json
 
 # Check response
 cat response.json

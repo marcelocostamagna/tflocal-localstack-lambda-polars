@@ -1,0 +1,13 @@
+# Terraform
+**/.terraform/*
+terraform.tfstate
+.terraform.lock.hcl
+terraform.tfstate.backup
+
+# Lambdas packages
+lambdas/cp-landing-bronze/cp-landing-bronze-package/
+lambdas/convert-parquet-silver/convert-parquet-silver-package/
+lambdas/*/*.zip
+
+# Misc
+volume/

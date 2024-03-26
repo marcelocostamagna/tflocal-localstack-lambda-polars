@@ -1,0 +1,22 @@
+FROM python:3.11
+
+WORKDIR /project
+
+RUN apt-get update -q
+RUN apt-get install -yq \
+    less nano
+
+RUN pip install s3fs awscliv2 
+
+
+RUN awsv2 --install
+RUN awsv2 --configure default key secret
+
+ENV AWS_REGION=us-east-1
+ENV AWS_ENDPOINT_URL=http://localstack:4566
+
+RUN echo 'alias aws=awsv2' >> ~/.bashrc
+
+ENTRYPOINT ["/bin/bash"]
+
+# COPY . .
